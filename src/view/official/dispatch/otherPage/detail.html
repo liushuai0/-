@@ -1,0 +1,94 @@
+<div class="dispatchDetail">
+
+
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md9">
+            <div class="title">
+                发文审批单
+            </div>
+            <div class="layui-form Container">
+                <div class="layui-form-item layui-col-md12">
+                    <label class="layui-form-label">公文标题</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="title" required lay-verify="required" placeholder="请输入公文标题"
+                            autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-row layui-col-space10">
+                    <div class="layui-col-md6 ">
+                        <div class="layui-form-item ">
+                            <label class="layui-form-label">主送</label>
+                            <div class="layui-input-block">
+                                <input type="text" maxlength="300" name="mainDelivery" lay-verify="mainDelivery"
+                                    autocomplete="off" placeholder="请输入主送" class="layui-input disable-style">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-md6 ">
+                        <div class="layui-form-item ">
+                            <label class="layui-form-label">文号</label>
+                            <div class="layui-input-block">
+                                <input type="text" maxlength="300" name="mainDelivery" lay-verify="mainDelivery"
+                                    autocomplete="off" placeholder="请输入主送" class="layui-input disable-style">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+        <div class="layui-col-md3">
+            <div style="margin-top: 0px;margin-right: 30px" class="functionality-btn">
+                <span class="functionality-btn-other">
+                    <button type="button" lay-submit lay-filter="stop" class="layui-btn layui-btn-ys layui-btn-sm btn-status" data-type="all" name="stop"><i><img src="/static/css/image/button/btn19.png"></i>办结</button>
+                    <button type="button" class="layui-btn layui-btn-ys layui-btn-sm btn-status" data-type="all" name="readed"><i><img src="/static/css/image/button/btn29.png"></i>已阅</button>
+                    <button type="button" class="layui-btn layui-btn-ys layui-btn-sm btn-status" data-type="all" name="gd"><i><img src="/static/css/image/button/btn29.png"></i>归档</button>
+                        <!-- <button type="button" class="layui-btn layui-btn-ys layui-btn-sm btn-status" data-type="all" name="editorWH"><i><img src="/static/css/image/button/btn29.png"></i>编辑文号</button>
+                        <button type="button" class="layui-btn layui-btn-ys layui-btn-sm btn-status" data-type="all" name="spyj"><i><img src="/static/css/image/button/btn29.png"></i>审批意见</button> -->
+                        <!-- <button type="button" class="layui-btn layui-btn-ys layui-btn-sm" data-type="all" name="submit"><i><img src="/static/css/image/button/btn29.png"></i>提交</button> -->
+
+                    <button type="button" id="edit"  class="layui-btn layui-btn-ys layui-btn-sm btn-status" data-type="all" name="editText"><i><img src="/static/css/image/button/btn5.png"></i>编辑正文</button>
+                    <button type="button" class="layui-btn layui-btn-ys layui-btn-sm btn-status" data-type="all" name="gz"><i><img src="/static/css/image/button/btn5.png"></i>盖章</button>
+                    <button type="button" class="layui-btn layui-btn-ys layui-btn-sm btn-status" data-type="all" name="th"><i><img src="/static/css/image/button/btn29.png"></i>套红</button>
+                    <button type="button" class="layui-btn layui-btn-ys layui-btn-sm btn-status" data-type="all" name="printSPD"><i><img src="/static/css/image/button/btn29.png"></i>打印审批单</button>
+                        <!-- <button class="layui-btn layui-btn-ys layui-btn-sm" data-type="all"><i><img src="/static/css/image/button/btn17.png"></i>转出</button> -->
+                    <button type="button"  class="layui-btn layui-btn-ys layui-btn-sm btn-status" data-type="all" name="reject"><i><img src="/static/css/image/button/btn19.png"></i>驳回</button>
+
+                                                <button type="button" class="layui-btn layui-btn-ys layui-btn-sm" style="display: none;" data-type="all" id="task" name="task"><i><img src="/static/css/image/button/btn5.png"></i>分配任务</button>
+                        <!-- 新建草稿按钮 -->
+                    <button type="button" class="layui-btn layui-btn-ys layui-btn-sm btn-status" data-type="all" id="upViewText" name="upViewText"><i><img src="/static/css/image/button/btn5.png"></i>上传正文</button>
+                    <button type="button" lay-submit lay-filter="LAY-save" class="layui-btn layui-btn-ys layui-btn-sm btn-status" name="save"><i><img src="/static/css/image/button/btn29.png"></i>暂存</button>
+                    <button type="button" lay-submit lay-filter="roll-out" class="layui-btn layui-btn-ys layui-btn-sm btn-status" data-type="all" name="submit"><i><img src="/static/css/image/button/btn17.png"></i>转出</button>
+                    <button  type="button" class="layui-btn layui-btn-ys layui-btn-sm btn-status" data-type="all" id="flowMap" name="flowMap"><i><img src="/static/css/image/button/btn22.png"></i>流程图</button>
+                </span>
+                <span>
+                    <button type="button" class="layui-btn layui-btn-ys layui-btn-sm btn-status" data-type="all" id="task" name="task"><i><img src="/static/css/image/button/btn5.png"></i>分配任务</button>
+                    <button type="button" class="layui-btn layui-btn-ys layui-btn-sm btn-status" data-type="all" name="viewText"><i><img src="/static/css/image/button/btn5.png"></i>查看正文</button>
+                    <button type="button"  class="layui-btn layui-btn-ys layui-btn-sm btn-status" data-type="all" name="passRead"><i><img src="/static/css/image/button/btn29.png"></i>传阅记录</button>
+                    <button type="button"  class="layui-btn layui-btn-ys layui-btn-sm btn-status" data-type="all" name="transmit"><i><img src="/static/css/image/button/btn29.png"></i>转发记录</button>
+                    <button type="button" style="margin-right: 55%"  class="layui-btn layui-btn-ys layui-btn-sm btn-status" data-type="all" name="replenish"><i><img src="/static/css/image/button/btn29.png"></i>补充意见</button>
+                </span>
+            </div>
+        </div>
+    </div>
+
+</div>
+<style>
+    html{
+        color: #000;
+    }
+    .title {
+        height: 130px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 24px;
+        font-weight: 400;
+    }
+    .Container{
+        padding: 0 50px;
+    }
+    
+</style>

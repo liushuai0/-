@@ -1,0 +1,201 @@
+import util from '../../component/util'
+import session from '../../component/session'
+import storage from '../../component/storage'
+
+// import router from '../../frame/router'
+
+
+module.exports = {
+    render: function (params, linkTo) {
+        session.remove('menuList');
+        session.remove('userInfo');
+        session.remove('huizheng-token');
+        session.remove('token');
+        var uuid = null;
+        uuid = util.uuid();
+        // var GetCaptcha = function () {
+        //     uuid = util.uuid();
+        //     this.$el.find('#captcha-img').attr('src', config.InterfaceAddress.renrenService + '/renren-admin/captcha?uuid=' + uuid);
+        // };
+        // this.$el.find('#captcha-img').click(function () {
+        //     GetCaptcha();
+        // });
+        // GetCaptcha();
+        $(document).on('keyDuwn');
+        // 测试数据 start
+        // this.$el.find('#username').val('100_luozheng');
+        // this.$el.find('#username').val('dulongfei');
+        // this.$el.find('#password').val('1');
+        // 测试数据 end
+
+        // 复选框
+        var forget = {
+            text: '记住用户名',
+            checkStatus: false,
+            show: function () {
+                forget.ele.addClass('layui-form-checked');
+                forget.checkStatus = true;
+            },
+            hide: function () {
+                forget.ele.removeClass('layui-form-checked');
+                forget.checkStatus = false;
+            },
+            event: function () {
+                var element = $('<div class="layui-unselect layui-form-checkbox" lay-skin="primary">' +
+                    '   <span>' + forget.text + '</span>' +
+                    '   <i class="layui-icon layui-icon-ok"></i>' +
+                    '</div>');
+                element.click(function () {
+                    if (forget.checkStatus) {
+                        storage.set('forgetUsername', forget.checkStatus);
+                        forget.hide();
+                    } else {
+                        storage.set('forgetUsername', forget.checkStatus);
+                        forget.show();
+                    }
+                });
+                return element;
+            },
+            set: function (value) {
+                if (value) {
+                    forget.show();
+                } else {
+                    forget.hide();
+                }
+            },
+        };
+        forget.ele = forget.event();
+        this.$el.find('.forget').append(forget.ele);
+        forget.set(!storage.get('forgetUsername'));
+
+        if (!storage.get('forgetUsername') && storage.get('loginName')) {
+            this.$el.find('#username').val(storage.get('loginName'))
+        };
+
+        // var forgetPassword='<span style="float: right" id="forgetPassword">忘记密码</span>';
+        // this.$el.find('.forget').append(forgetPassword);
+        // this.$el.find('#forgetPassword').on("click",function () {
+        //     location.href="password.html";
+        //     //window.open("password.html");
+        // });
+
+
+
+        var login = () => {
+            var username = this.$el.find('#username').val();
+            if (!username) {
+                layer.tips('用户名不能为空', this.$el.find('#username'), {
+                    tips: [3, '#FF5722']
+                });
+                this.$el.find('#username').focus();
+                return;
+            };
+            var password = this.$el.find('#password').val();
+            if (!password) {
+                layer.tips('密码不能为空', this.$el.find('#password'), {
+                    tips: [3, '#FF5722']
+                });
+                this.$el.find('#password').focus();
+                return;
+            };
+            // var captcha = this.$el.find('#captcha').val();
+            // if (!captcha) {
+            //     layer.tips('验证码不能为空', this.$el.find('#captcha'), {
+            //         tips: [3, '#FF5722']
+            //     });
+            //     this.$el.find('#captcha').focus();
+            //     return;
+            // };
+
+            var isForget = !forget.checkStatus;
+
+            this.$api.login({
+                username: username,
+                password: password,
+                captcha: '100',
+                uuid: uuid,
+            }, function (res) {
+                // GetCaptcha();
+                if (!isForget) {
+                    storage.set('loginName', username);
+                };
+                layout.init();
+                // var menu = session.get('menuList');
+                // window.layout.renderMenu(menu);
+                // function getFirstPageforMenu(data) {
+                //     for (let i = 0; i < data.length; i++) {
+                //         const element = data[i];
+                //         if (element.name == '业务管理') {
+                //             return element;
+                //         }
+                //     }
+                // };
+                // var pageArray = getFirstPageforMenu(menu);
+                // var getChildPath = function (data) {
+                //     // 如果当前对象有路径值，返回路径值
+                //     // 否则遍历子对象进行数据返回
+                //     if (data.path) {
+                //         return data;
+                //     } else {
+                //         // 判断当前对象有子导航对象，
+                //         if (data.hasOwnProperty('subItems')) {
+                //             for (let i = 0; i < data.subItems.length; i++) {
+                //                 const element = data.subItems[i];
+                //                 // 递归获取导航参数中的路径
+                //                 var _data = getChildPath(element);
+                //                 if (_data) {
+                //                     return _data;
+                //                 };
+                //             }
+                //         };
+                //         return false;
+                //     }
+                // };
+                // var page = getChildPath(pageArray).path;
+                // config.defaultPage = page;
+                // router.getRouter(page, {}, function (router) {
+                //     if (router) {
+                //         window.layout.changeRouter(router);
+                //     } else {
+                //         window.layout.changeRouter('/login');
+                //     };
+                // });
+            }, function (errorMessage) {
+                if (errorMessage == '账号或密码错误') {
+                    layer.tips('账号或密码错误', this.$el.find('#username'), {
+                        tips: [3, '#FF5722']
+                    });
+                    this.$el.find('#username').focus();
+                } else {
+                    layer.open({
+                        title: '警告',
+                        content: '登录失败，请检查账户信息'
+                    });
+                };
+                // else if (errorMessage == '验证码不正确') {
+                //     layer.tips('验证码不正确', this.$el.find('#captcha'), {
+                //         tips: [3, '#FF5722']
+                //     });
+                //     this.$el.find('#captcha').focus();
+                // };
+                // GetCaptcha();
+            });
+        };
+
+        $(document).bind('keyup', function (event) {
+            if (event.keyCode == "13") {
+                login();
+            }
+        });
+
+        this.$el.find('#login').click(function () {
+            login();
+        });
+    },
+    destroy: function () {
+        $(document).unbind('keyup');
+
+    },
+}
+
+
